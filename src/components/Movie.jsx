@@ -1,20 +1,3 @@
-/*
-export default function Movie(props) {
-  let datos = props.datos;
-
-  return (
-    <div>
-      <br/>cover: {datos.cover}
-      <br/>director: {datos.director}
-      <br/>duration: {datos.duration}
-      <br/>rate: {datos.rate}
-      <br/>title: {datos.title}
-      <br/>year: {datos.year}
-    </div>
-   );
-
-}
-*/
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -31,7 +14,6 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Grid } from "@material-ui/core";
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,25 +46,7 @@ export default function RecipeReviewCard(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  let defaultImage = "https://static.wikia.nocookie.net/youtubepedia/images/c/c0/Inco.jpg/revision/latest/top-crop/width/360/height/450?cb=20190427181002&path-prefix=es"
-  let { datos: { images } } = props;
-  let image = ''//images.length === 0 ? defaultImage : images[0].base64;
 
-  function b64toBlob(dataURI) {
-    var byteString = window.atob(dataURI.split(',')[1]);
-    var ab = new ArrayBuffer(byteString.length);
-    var ia = new Uint8Array(ab);
-
-    for (var i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type: 'image/jpeg' });
-  }
-  try {
-    image = URL.createObjectURL(b64toBlob(image))
-  } catch (err) {
-    image = defaultImage
-  }
   return (
     <Grid item xs='auto' md='auto' lg='auto' key={datos.id}>
 
@@ -95,12 +59,8 @@ export default function RecipeReviewCard(props) {
           }
           title={datos.title}
         />
-        {/* <CardMedia square
-          className={classes.media}
-          imageUrl={image}
-          title="Paella dish"
-        /> */}
-        <img src="https://static.wikia.nocookie.net/youtubepedia/images/c/c0/Inco.jpg/revision/latest/top-crop/width/360/height/450?cb=20190427181002&path-prefix=es" style={{ width: "100%" }} />
+
+        <img src={datos.cover} style={{ width: "100%" }} />
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
             {datos.director}
