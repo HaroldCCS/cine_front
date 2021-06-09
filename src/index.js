@@ -1,15 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Router } from "react-router-dom";
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+import { createBrowserHistory } from "history";
+import { ThemeProvider } from "@material-ui/styles";
+import { CssBaseline } from "@material-ui/core";
+import App from "./App";
+import Themes from "./themes";
+import reportWebVitals from "./reportWebVitals";
 
+const history = createBrowserHistory();
 ReactDOM.render(
-  <Router>
-    <App />
+  <Router history={history}>
+      <ThemeProvider theme={Themes.default}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
   </Router>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
