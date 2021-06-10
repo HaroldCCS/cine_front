@@ -12,12 +12,10 @@ import services from '../../services/services'
 export default function AddMovie(props) {
 
   const initState = {
-    "title": "",
-    "year": "",
-    "director": "",
-    "duration": "",
-    "rate": "",
-    "cover": ""
+    "name": "",
+    "email": "",
+    "username": "",
+    "password": ""
   };
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", "message": "" })
@@ -29,6 +27,7 @@ export default function AddMovie(props) {
 
 
   const handleClose = () => {
+    setMessage({ type: "", "message": "" })
     setForm({ ...initState })
     setOpen(false);
   };
@@ -38,15 +37,23 @@ export default function AddMovie(props) {
     e.preventDefault()
     setIsLoading(true)
     await services
-    .post("api/movie", form)
+    .post("api/user", form)
     .then((res) => {
-      setIsLoading(false)
-      setMessage({ type: "success", message: "Publicacion hecha correctamente" })
-      props.getDatos()
+      console.log(res);
+      if (res.statusCode === 400) {
+        setIsLoading(false)
+        setMessage({ type: "error", message: "Error al registrar el productor" })
+      } else {
+        setIsLoading(false)
+        setMessage({ type: "success", message: "Productor registrado correctamente" })
+        props.getDatos()
+        setOpen(false);
+      }
+
     })
     .catch((err) => {
       setIsLoading(false)
-      setMessage({ type: "error", message: "Error al crear la publicacion" })
+      setMessage({ type: "error", message: "Error al registrar el productor" })
       console.error(err);
     });
 
@@ -55,7 +62,7 @@ export default function AddMovie(props) {
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Agrega tu publicacion!
+        Añade un Productor
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Crear publicacion</DialogTitle>
@@ -76,63 +83,43 @@ export default function AddMovie(props) {
           </Fade>
           <form id="formSend" onSubmit={handleSubmit}>
             <TextField
-              value={form.director}
-              onChange={e => setForm({ ...form, director: e.target.value })}
+              value={form.name}
+              onChange={e => setForm({ ...form, name: e.target.value })}
               autoFocus
               margin="dense"
-              id="director"
-              label="Nombre del director"
+              id="name"
+              label="Nombre del name"
               type="text"
               fullWidth
             />
             <TextField
-              value={form.title}
-              onChange={e => setForm({ ...form, title: e.target.value })}
+              value={form.email}
+              onChange={e => setForm({ ...form, email: e.target.value })}
               autoFocus
               margin="dense"
-              id="title"
-              label="Titulo de la pelicula"
+              id="email"
+              label="Ingrese su email"
+              type="email"
+              fullWidth
+            />
+            <TextField
+              value={form.username}
+              onChange={e => setForm({ ...form, username: e.target.value })}
+              autoFocus
+              margin="dense"
+              id="username"
+              label="Ingrese su nombre de usuario"
               type="text"
               fullWidth
             />
             <TextField
-              value={form.duration}
-              onChange={e => setForm({ ...form, duration: e.target.value })}
+              value={form.password}
+              onChange={e => setForm({ ...form, password: e.target.value })}
               autoFocus
               margin="dense"
-              id="duration"
-              label="Duración"
-              type="text"
-              fullWidth
-            />
-            <TextField
-              value={form.rate}
-              onChange={e => setForm({ ...form, rate: e.target.value })}
-              autoFocus
-              margin="dense"
-              id="rate"
-              label="Rate"
-              type="number"
-              fullWidth
-            />
-            <TextField
-              value={form.year}
-              onChange={e => setForm({ ...form, year: e.target.value })}
-              autoFocus
-              margin="dense"
-              id="year"
-              label="Año"
-              type="number"
-              fullWidth
-            />
-            <TextField
-              value={form.cover}
-              onChange={e => setForm({ ...form, cover: e.target.value })}
-              autoFocus
-              margin="dense"
-              id="cover"
-              label="link de la imagen"
-              type="text"
+              id="password"
+              label="Cree su contraseña"
+              type="password"
               fullWidth
             />
           </form>
@@ -147,7 +134,7 @@ export default function AddMovie(props) {
             <CircularProgress size={26} />
           ) : (
             <Button form="formSend" type="submit" color="primary">
-              Añadir publicacion
+              Añadir productor
             </Button>
           )}
         </DialogActions>

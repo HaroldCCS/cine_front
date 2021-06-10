@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import services from '../services/services'
 import User from '../components/user/User';
-
+import AddUser from '../components/user/AddUser';
+import { Grid , CircularProgress} from "@material-ui/core";
 
 export default function Users(props) {
-  // local
   let [isLoading, setIsLoading] = useState(true);
   let [data, setdata] = useState([]);
 
@@ -25,13 +25,18 @@ export default function Users(props) {
   }, [])
 
   return (
-    <div>
+      <>
+      <h1>Productores</h1>
+      <AddUser getDatos={getDataPublish}/>
+      <Grid container spacing={4} direction="row" justify="space-evenly">
         {isLoading ? (
-          <b>Estoy cargando chaval..</b>
+          <CircularProgress size={26} />
         ) : (
-          data.map((x) => <User datos={x} key={x._id}/>)
+          data.map((x) => <User datos={x} key={x._id} getDatos={getDataPublish}/>)
+
         )}
-    </div>
+      </Grid>
+      </>
    );
 
 }
