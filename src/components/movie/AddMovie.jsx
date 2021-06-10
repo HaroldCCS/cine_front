@@ -49,6 +49,7 @@ export default function AddMovie(props) {
         setIsLoading(false)
         setMessage({ type: "success", message: "Publicacion hecha correctamente" })
         props.getDatos()
+        setOpen(false);
       }
 
     })

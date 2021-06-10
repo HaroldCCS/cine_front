@@ -48,6 +48,7 @@ export default function EditMovie(props) {
           setIsLoading(false)
           setMessage({ type: "success", message: "Publicacion hecha correctamente" })
           props.getDatos()
+          setOpen(false);
         }
       })
       .catch((err) => {
