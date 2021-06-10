@@ -14,7 +14,7 @@ import { Grid, CircularProgress } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import services from "../../services/services";
 import EditUser from "./EditUser";
-
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -99,7 +99,10 @@ export default function User(props) {
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <h2>Peliculas:</h2>
+            <b>Peliculas: </b>
+            <IconButton aria-label="share">
+              <AddIcon />
+            </IconButton>
             {datos.movies.length > 0 ? (
               datos.movies.map((x) => (
                 <Typography paragraph>{x.title}</Typography>

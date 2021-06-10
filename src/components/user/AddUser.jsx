@@ -39,7 +39,6 @@ export default function AddMovie(props) {
     await services
     .post("api/user", form)
     .then((res) => {
-      console.log(res);
       if (res.statusCode === 400) {
         setIsLoading(false)
         setMessage({ type: "error", message: "Error al registrar el productor" })

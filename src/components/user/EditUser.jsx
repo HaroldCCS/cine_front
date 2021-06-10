@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import Select from "@material-ui/core/Select";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -18,15 +19,32 @@ export default function EditUser(props) {
     "name": datos.name,
     "email": datos.email,
     "username": datos.username,
-    "password": datos.password
+    "password": datos.password,
+    "movies": ""
   };
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", message: "" });
   const [open, setOpen] = React.useState(false);
   const [form, setForm] = useState({ ...initState });
+  const [data, setdata] = useState([]);
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  const getDataMovies = async () => {
+    await services
+      .get("api/movie")
+      .then((res) => {
+        setdata(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  useEffect(() => {
+    getDataMovies()
+  }, [])
 
   const handleClose = () => {
     setOpen(false);
@@ -38,7 +56,6 @@ export default function EditUser(props) {
     await services
       .put(`api/user/${datos._id}`, form)
       .then((res) => {
-        console.log(res);
         if (res.statusCode === 400) {
           setIsLoading(false)
           setMessage({ type: "error", message: "Error al modificar la productora" })
@@ -121,6 +138,17 @@ export default function EditUser(props) {
               type="password"
               fullWidth
             />
+            <Select
+              required
+              fullWidth
+              native
+              onChange={e => setForm({ ...form, movies: [e.target.value] })}
+              value={form.movies}
+              id="movies"
+            >
+              <option aria-label="None" value="" >--SELECCIONA--</option>
+               {data.map((item) => (<option value={item._id}>{item.title}</option>))}
+            </Select>
           </form>
         </DialogContent>
 

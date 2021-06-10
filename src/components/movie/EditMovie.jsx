@@ -40,7 +40,6 @@ export default function EditMovie(props) {
     await services
       .put(`api/movie/${datos._id}`, form)
       .then((res) => {
-        console.log(res);
         if (res.statusCode === 400) {
           setIsLoading(false)
           setMessage({ type: "error", message: "Error al crear la publicacion" })
