@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import services from '../services/services'
+import services from '../../services/services'
 
 
 export default function Movie(props) {

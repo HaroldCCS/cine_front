@@ -10,11 +10,10 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Grid } from "@material-ui/core";
+import { Grid, CircularProgress } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import services from "../../services/services";
 import EditMovie from "./EditMovie";
-import { CircularProgress } from "@material-ui/core";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -67,7 +66,7 @@ export default function RecipeReviewCard(props) {
       <Card className={classes.root}>
         <CardHeader title={datos.title} />
 
-        <img src={datos.cover} style={{ width: "100%" }} />
+        <img src={datos.cover} style={{ width: "100%" }} alt={datos.cover}/>
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
             {datos.director}

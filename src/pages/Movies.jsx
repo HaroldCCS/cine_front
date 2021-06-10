@@ -2,14 +2,11 @@ import React, { useEffect, useState } from 'react'
 import services from '../services/services'
 import Movie from '../components/movie/Movie';
 import AddMovie from '../components/movie/AddMovie';
-
-import { Grid } from "@material-ui/core";
-import { CircularProgress } from "@material-ui/core";
+import { Grid , CircularProgress} from "@material-ui/core";
 
 export default function Movies(props) {
-  // local
-  var [isLoading, setIsLoading] = useState(true);
-  var [data, setdata] = useState([]);
+  let [isLoading, setIsLoading] = useState(true);
+  let [data, setdata] = useState([]);
 
   const getDataPublish = async () => {
     await services

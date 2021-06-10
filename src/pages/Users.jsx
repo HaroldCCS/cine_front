@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import services from '../services/services'
-import User from '../components/User';
+import User from '../components/user/User';
 
 
 export default function Users(props) {
   // local
-  var [isLoading, setIsLoading] = useState(true);
-  var [data, setdata] = useState([]);
+  let [isLoading, setIsLoading] = useState(true);
+  let [data, setdata] = useState([]);
 
   const getDataPublish = async () => {
     await services

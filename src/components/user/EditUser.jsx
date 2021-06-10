@@ -1,91 +1,90 @@
-import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { CircularProgress, Fade, Typography } from '@material-ui/core';
-import services from '../../services/services'
+import React, { useState } from "react";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import { CircularProgress, Fade, Typography } from "@material-ui/core";
+import services from "../../services/services";
+import EditIcon from "@material-ui/icons/Edit";
+import IconButton from "@material-ui/core/IconButton";
 
-export default function AddMovie(props) {
+export default function EditMovie(props) {
+  const { datos } = props;
 
   const initState = {
-    "title": "",
-    "year": "",
-    "director": "",
-    "duration": "",
-    "rate": "",
-    "cover": ""
+    title: datos.title,
+    year: datos.year,
+    director: datos.director,
+    duration: datos.duration,
+    rate: datos.rate,
+    cover: datos.cover,
   };
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState({ type: "", "message": "" })
+  const [message, setMessage] = useState({ type: "", message: "" });
   const [open, setOpen] = React.useState(false);
-  const [form, setForm] = useState({ ...initState })
+  const [form, setForm] = useState({ ...initState });
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-
   const handleClose = () => {
-    setMessage({ type: "", "message": "" })
-    setForm({ ...initState })
     setOpen(false);
   };
 
   const handleSubmit = async (e) => {
-
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
     await services
-    .post("api/movie", form)
-    .then((res) => {
-      console.log(res);
-      if (res.statusCode === 400) {
-        setIsLoading(false)
-        setMessage({ type: "error", message: "Error al crear la publicacion" })
-      } else {
-        setIsLoading(false)
-        setMessage({ type: "success", message: "Publicacion hecha correctamente" })
-        props.getDatos()
-      }
-
-    })
-    .catch((err) => {
-      setIsLoading(false)
-      setMessage({ type: "error", message: "Error al crear la publicacion" })
-      console.error(err);
-    });
-
-  }
+      .put(`api/movie/${datos._id}`, form)
+      .then((res) => {
+        setIsLoading(false);
+        setMessage({
+          type: "success",
+          message: "Publicacion Modificada Correctamente",
+        });
+        props.getDatos();
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        setMessage({
+          type: "error",
+          message: "Error al modificar la publicacion",
+        });
+        console.error(err);
+      });
+  };
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Agrega tu publicacion!
-      </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <IconButton aria-label="share" onClick={handleClickOpen}>
+        <EditIcon />
+      </IconButton>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
         <DialogTitle id="form-dialog-title">Crear publicacion</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Ingresa estos datos para crear tu publicacion!
           </DialogContentText>
           <Fade in={message.type === "error"}>
-            <Typography color="secondary" >
-              {message.message}
-            </Typography>
+            <Typography color="secondary">{message.message}</Typography>
           </Fade>
 
           <Fade in={message.type === "success"}>
-            <Typography style={{ color: "green" }} >
+            <Typography style={{ color: "green" }}>
               Publicacion realizada correctamente.
             </Typography>
           </Fade>
           <form id="formSend" onSubmit={handleSubmit}>
             <TextField
               value={form.director}
-              onChange={e => setForm({ ...form, director: e.target.value })}
+              onChange={(e) => setForm({ ...form, director: e.target.value })}
               autoFocus
               margin="dense"
               id="director"
@@ -95,7 +94,7 @@ export default function AddMovie(props) {
             />
             <TextField
               value={form.title}
-              onChange={e => setForm({ ...form, title: e.target.value })}
+              onChange={(e) => setForm({ ...form, title: e.target.value })}
               autoFocus
               margin="dense"
               id="title"
@@ -105,7 +104,7 @@ export default function AddMovie(props) {
             />
             <TextField
               value={form.duration}
-              onChange={e => setForm({ ...form, duration: e.target.value })}
+              onChange={(e) => setForm({ ...form, duration: e.target.value })}
               autoFocus
               margin="dense"
               id="duration"
@@ -115,7 +114,7 @@ export default function AddMovie(props) {
             />
             <TextField
               value={form.rate}
-              onChange={e => setForm({ ...form, rate: e.target.value })}
+              onChange={(e) => setForm({ ...form, rate: e.target.value })}
               autoFocus
               margin="dense"
               id="rate"
@@ -125,7 +124,7 @@ export default function AddMovie(props) {
             />
             <TextField
               value={form.year}
-              onChange={e => setForm({ ...form, year: e.target.value })}
+              onChange={(e) => setForm({ ...form, year: e.target.value })}
               autoFocus
               margin="dense"
               id="year"
@@ -135,7 +134,7 @@ export default function AddMovie(props) {
             />
             <TextField
               value={form.cover}
-              onChange={e => setForm({ ...form, cover: e.target.value })}
+              onChange={(e) => setForm({ ...form, cover: e.target.value })}
               autoFocus
               margin="dense"
               id="cover"
@@ -146,7 +145,6 @@ export default function AddMovie(props) {
           </form>
         </DialogContent>
 
-
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
@@ -155,7 +153,7 @@ export default function AddMovie(props) {
             <CircularProgress size={26} />
           ) : (
             <Button form="formSend" type="submit" color="primary">
-              Añadir publicacion
+              Modificar publicacion
             </Button>
           )}
         </DialogActions>

@@ -29,7 +29,6 @@ export default function AddMovie(props) {
 
 
   const handleClose = () => {
-    setMessage({ type: "", "message": "" })
     setForm({ ...initState })
     setOpen(false);
   };
@@ -41,16 +40,9 @@ export default function AddMovie(props) {
     await services
     .post("api/movie", form)
     .then((res) => {
-      console.log(res);
-      if (res.statusCode === 400) {
-        setIsLoading(false)
-        setMessage({ type: "error", message: "Error al crear la publicacion" })
-      } else {
-        setIsLoading(false)
-        setMessage({ type: "success", message: "Publicacion hecha correctamente" })
-        props.getDatos()
-      }
-
+      setIsLoading(false)
+      setMessage({ type: "success", message: "Publicacion hecha correctamente" })
+      props.getDatos()
     })
     .catch((err) => {
       setIsLoading(false)
