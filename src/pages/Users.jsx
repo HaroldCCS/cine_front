@@ -12,10 +12,8 @@ export default function Users(props) {
     await services
       .get("api/user")
       .then((res) => {
-        console.log(res);
         setdata(res.data);
         setIsLoading(false);
-        console.log(data);
       })
       .catch((err) => {
         console.error(err);

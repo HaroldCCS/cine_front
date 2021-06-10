@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import services from '../services/services'
-import Movie from '../components/Movie';
+import Movie from '../components/movie/Movie';
+import AddMovie from '../components/movie/AddMovie';
 
 import { Grid } from "@material-ui/core";
 import { CircularProgress } from "@material-ui/core";
@@ -14,10 +15,8 @@ export default function Movies(props) {
     await services
       .get("api/movie")
       .then((res) => {
-        console.log(res);
         setdata(res.data);
         setIsLoading(false);
-        console.log(data);
       })
       .catch((err) => {
         console.error(err);
@@ -31,11 +30,12 @@ export default function Movies(props) {
   return (
       <>
       <h1>Peliculas</h1>
+      <AddMovie getDatos={getDataPublish}/>
       <Grid container spacing={4} direction="row" justify="space-evenly">
         {isLoading ? (
           <CircularProgress size={26} />
         ) : (
-          data.map((x) => <Movie datos={x} key={x._id}/>)
+          data.map((x) => <Movie datos={x} key={x._id} getDatos={getDataPublish}/>)
 
         )}
       </Grid>
